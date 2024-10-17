@@ -1,0 +1,155 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+}
+
+.authContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #454647, #349cf1);
+}
+
+.appTitle {
+  font-size: 5rem;
+  color: #02ccfa;
+  margin-bottom: 10px;
+  font-weight: bolder;
+}
+
+.subtitle {
+  font-size: 20px;
+  color: #02394d; 
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.contentWrapper {
+  display: flex;
+  justify-content: space-around; 
+  width: 90%;
+  max-width: 800px; 
+}
+
+.description {
+  text-align: left; 
+  flex: 1; 
+  margin-top: 30px;
+  margin-right: 20px; 
+  font-size: 20px;
+  font-weight: bolder;
+  color: white; 
+}
+
+.authForm {
+  background-color: transparent;
+  padding: 30px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  flex: 1;
+  max-width: 400px; 
+}
+
+.inputContainer {
+  margin-bottom: 20px;
+}
+
+.input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px; 
+  background-color: transparent;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.checkbox {
+  margin-right: 10px; 
+}
+
+.checkboxText {
+  font-size: 14px; 
+}
+
+.button {
+  width: 100%;
+  padding: 12px;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 18px; 
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button:hover {
+  background-color: #155a8a;
+}
+
+.spinner {
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top: 3px solid #ffffff;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+  margin-right: 8px;
+}
+
+.error {
+  color: red;
+  margin-top: 10px;
+}
+
+.link {
+  color: rgb(191, 209, 237);
+  text-align: center;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+.termsText{
+  color: #333;
+}
+
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@media (max-width: 480px) {
+  .contentWrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .authContainer {
+    height: 100vh;
+  }
+
+  .appTitle {
+    font-size: 28px;
+  }
+
+  .subtitle {
+    font-size: 18px;
+    margin-bottom: -20px;
+  }
+}

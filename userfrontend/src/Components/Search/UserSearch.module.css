@@ -1,0 +1,150 @@
+.container {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 600px;
+  padding: 20px;
+  background: linear-gradient(140deg, #454647, #349cf1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 9999;
+  height: 100vh;
+}
+
+.searchContainer {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.searchInput {
+  flex: 1;
+  padding: 10px;
+  margin-right: 10px;
+}
+
+.searchButton {
+  padding: 10px 20px;
+  background-color: #349cf1;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s, border 0.3s, box-shadow 0.3s;
+}
+
+.searchButton:hover {
+  background-color: #fff;
+  color: #349cf1;
+  border: 1px solid #349cf1;
+  box-shadow: 0 0 5px #349cf1;
+}
+
+.message {
+  margin-bottom: 10px;
+  padding: 10px;
+}
+
+.error {
+  background-color: #ffcccc;
+  color: #454647;
+  font-weight: bolder;
+  animation: errorAnimation 1s ease-in-out infinite alternate;
+}
+
+.success {
+  background-color: #ccffcc;
+  color: #349cf1;
+  font-weight: bolder;
+  animation: successAnimation 1s ease-in-out infinite alternate;
+}
+
+.userList {
+  list-style-type: none;
+  padding: 0;
+  height: 400px;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.userItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  transition: background-color 0.3s;
+}
+
+.userItem:hover {
+  background-color: #e6f2fb;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+}
+
+.profilePicture {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.sendRequestButton {
+  white-space: nowrap;
+  background-color: white;
+  color: #349cf1;
+  padding: 1vh;
+  border-radius: 5px;
+  border: none;
+  transition: background-color 0.3s, color 0.3s, border 0.3s, box-shadow 0.3s;
+}
+
+.sendRequestButton:hover {
+  background-color: #349cf1;
+  color: white;
+  border: 1px solid #349cf1;
+  box-shadow: 0 0 15px #349cf1;
+  animation: buttonHoverAnimation 0.5s ease-in-out;
+}
+
+/* Keyframes Animations */
+@keyframes errorAnimation {
+  0% {
+    background-color: #ffcccc;
+    color: #454647;
+  }
+  100% {
+    background-color: #454647;
+    color: #ffcccc;
+  }
+}
+
+@keyframes successAnimation {
+  0% {
+    background-color: #ccffcc;
+    color: #349cf1;
+  }
+  100% {
+    background-color: #349cf1;
+    color: #ccffcc;
+  }
+}
+
+@keyframes buttonHoverAnimation {
+  0% {
+    background-color: #349cf1;
+    color: white;
+  }
+  50% {
+    background-color: white;
+    color: #349cf1;
+  }
+  100% {
+    background-color: #349cf1;
+    color: white;
+  }
+}
