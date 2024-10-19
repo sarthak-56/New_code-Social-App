@@ -13,6 +13,7 @@ import ProfileEdit from './Components/Profile/ProfileEdit'
 import Main from './Components/Main/Main'
 import SavedPost from './Components/SavedPost/SavedPost';
 import ShareButton from './Components/Share/ShareButton';
+import ChatWindow from './Components/ChatWindow/ChatWindow';
 
 import './index.css';
 
@@ -40,6 +41,8 @@ const App = () => {
         <Route path="/save" element={<PrivateRoute element={<SavedPost/>} />} />
         <Route path="/share-post" element={<ShareButton />} />
         <Route path="/profile/:id" element={<Profile/>} />
+        <Route path="/chat/:friendId" element={<ChatWindow />} />
+
       </Routes>
     </Router>
   );

@@ -3,7 +3,6 @@ import styles from './SavedPost.module.css';
 import LikeButton from '../LikeButton/LikeButton';
 import CommentForm from '../Comments/CommentForm';
 import ShareButton from '../Share/ShareButton';
-import SaveButton from '../Save/SaveButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookmark } from '@fortawesome/free-solid-svg-icons';
 import ImageModal from '../FeedPage/ImageModal'; 

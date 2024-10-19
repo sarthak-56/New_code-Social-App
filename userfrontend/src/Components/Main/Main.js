@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserFriends, faEdit, faUser, faSearch, faUserCircle, faUsers } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faSearch, faUserCircle, faUsers } from '@fortawesome/free-solid-svg-icons';
 import styles from './Main.module.css';
 import FeedPage from '../FeedPage/FeedPage';
 
@@ -25,6 +25,7 @@ function Main() {
                     <Link to='/search' className={styles.navLink}>
                         <FontAwesomeIcon icon={faSearch} />
                     </Link>
+                    
                 </div>
             </nav>
 

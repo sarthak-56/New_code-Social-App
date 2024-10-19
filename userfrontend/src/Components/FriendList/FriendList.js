@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styles from './FriendList.module.css';
-import { Link} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const FriendList = () => {
   const [friends, setFriends] = useState([]);
@@ -9,6 +9,7 @@ const FriendList = () => {
   const [error, setError] = useState(null);
   const [selectedFriend, setSelectedFriend] = useState(null);
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
+  const navigate = useNavigate(); // Use useNavigate for navigation
 
   useEffect(() => {
     const fetchFriends = async () => {
@@ -55,6 +56,21 @@ const FriendList = () => {
   };
 
 
+// Function to start chat
+const startChat = async (friendId, friendName) => {
+  try {
+    const token = localStorage.getItem('token');
+    
+    const response = await axios.post('http://127.0.0.1:8000/api/chat/chatrooms/', {
+      users: [friendId], 
+    }, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    navigate(`/chat/${response.data.chatroom_id}?name=${encodeURIComponent(friendName)}`); 
+  } catch (error) {
+    console.error('Error creating chat room:', error);
+  }
+};
 
   return (
     <div className={styles.container}>
@@ -94,6 +110,7 @@ const FriendList = () => {
             <div className={styles["profile-details"]}>
               <h1>{selectedFriend.name}</h1>
               <button className={styles.opt} onClick={() => unfriend(selectedFriend.id)}>Unfriend</button>
+              <button className={styles.opt} onClick={() => startChat(selectedFriend.id, selectedFriend.name)}>Message</button>
             </div>
           </div>
         </div>
