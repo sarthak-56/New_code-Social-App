@@ -8,4 +8,3 @@
 ![Screenshot 2024-10-17 151118](https://github.com/user-attachments/assets/3890096c-1c5c-4138-be2e-8f0cecc97694)
 ![Screenshot 2024-10-17 151101](https://github.com/user-attachments/assets/028400e0-605a-47c2-a215-5aa85bb714b2)
 ![Screenshot 2024-10-17 151043](https://github.com/user-attachments/assets/64ea60b5-0ae1-45ee-a8eb-ee9ba0176cb7)
-![Screenshot 2024-10-19 233332](https://github.com/user-attachments/assets/df442d97-7e88-4186-a86a-5a2dce402378)
