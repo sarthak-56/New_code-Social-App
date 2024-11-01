@@ -30,16 +30,43 @@ class UserManager(BaseUserManager):
         return user
 
 class User(AbstractBaseUser):
-    email = models.CharField(verbose_name='Email', max_length=255, unique=True,)
+    RELATIONSHIP_STATUS_CHOICES = [
+        ('single', 'Single'),
+        ('married', 'Married'),
+        ('engaged', 'Engaged'),
+        ('in_relationship', 'In a Relationship'),
+        ('divorced', 'Divorced'),
+        ('separated', 'Separated'),
+    ]
+
+    email = models.CharField(verbose_name='Email', max_length=255, unique=True)
     name = models.CharField(max_length=200)
-    tc = models.BooleanField()
+    tc = models.BooleanField()  # Terms and Conditions accepted
     profile_pic = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
     cover_pic = models.ImageField(upload_to='cover_pics/', blank=True, null=True)
     bio = models.TextField(blank=True, null=True)
+    
+    # New fields
+    location = models.CharField(max_length=255, blank=True, null=True)  # Location of the user
+    work = models.CharField(max_length=255, blank=True, null=True)       # Work information
+    study = models.CharField(max_length=255, blank=True, null=True)      # Study information
+    relationship_status = models.CharField(
+        max_length=20,
+        choices=RELATIONSHIP_STATUS_CHOICES,
+        default='single',
+    )
+    date_of_birth = models.DateField(blank=True, null=True)  # Date of birth field
+
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['name']
+
+    def __str__(self):
+        return self.email
 
     objects = UserManager()
 

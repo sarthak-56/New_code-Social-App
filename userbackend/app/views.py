@@ -188,17 +188,17 @@ class UserSearchAPIView(APIView):
 class UserPostsAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get(self, request):
-        user_posts = UserPost.objects.filter(user=request.user).order_by('-created_at')
-        serializer = UserPostSerializer(user_posts, many=True)
-        return Response(serializer.data)
-
     def post(self, request):
         serializer = UserPostSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(user=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def get(self, request):
+        user_posts = UserPost.objects.filter(user=request.user).order_by('-created_at')
+        serializer = UserPostSerializer(user_posts, many=True)
+        return Response(serializer.data)
 
 class GlobalPostsAPIView(APIView):
     permission_classes = [IsAuthenticated]

@@ -30,26 +30,61 @@ class UserLoginSerializer(serializers.ModelSerializer):
     fields = ['email', 'password']
 
 class UserProfileSerializer(serializers.ModelSerializer):
-  class Meta:
-    model = User
-    fields = ['id', 'name', 'email', 'bio', 'profile_pic', 'cover_pic']
-
+    class Meta:
+        model = User
+        fields = [
+            'id', 
+            'name', 
+            'email', 
+            'bio', 
+            'profile_pic', 
+            'cover_pic', 
+            'location',         
+            'study',           
+            'relationship_status', 
+            'date_of_birth' ,
+            'created_at'    
+        ]
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'name', 'email', 'tc', 'profile_pic', 'cover_pic', 'bio']   # Include any other fields you need
-        read_only_fields = ['email']
+        fields = [
+            'id', 
+            'name', 
+            'email', 
+            'tc', 
+            'profile_pic', 
+            'cover_pic', 
+            'bio', 
+            'location',        
+            'work',            
+            'study',           
+            'relationship_status', 
+            'date_of_birth'    ,
+            'created_at'
+        ]
+        read_only_fields = ['email']  # Email remains read-only
 
     def update(self, instance, validated_data):
         instance.name = validated_data.get('name', instance.name)
         instance.tc = validated_data.get('tc', instance.tc)
+
+        # Handle image updates
         if 'profile_pic' in validated_data:
             instance.profile_pic = validated_data['profile_pic']
         if 'cover_pic' in validated_data:
             instance.cover_pic = validated_data['cover_pic']
+
+        # Update new fields
         instance.bio = validated_data.get('bio', instance.bio)
+        instance.location = validated_data.get('location', instance.location)  # Updated field
+        instance.work = validated_data.get('work', instance.work)  # Updated field
+        instance.study = validated_data.get('study', instance.study)  # Updated field
+        instance.relationship_status = validated_data.get('relationship_status', instance.relationship_status)  # Updated field
+        instance.date_of_birth = validated_data.get('date_of_birth', instance.date_of_birth)  # Updated field
+
         instance.save()
-        return instance 
+        return instance
 
 class FriendRequestSerializer(serializers.ModelSerializer):
     from_user = UserSerializer()

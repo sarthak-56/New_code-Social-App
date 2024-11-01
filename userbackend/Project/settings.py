@@ -27,12 +27,14 @@ SECRET_KEY = 'django-insecure-$!l+uqyhjvf6^r2q#lsde2jycge49@+_n%z%*k2bq@=qbd&^$t
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['192.168.21.32', 'localhost', '127.0.0.1']
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # Your React app's URL
+    "http://localhost:8081",
+     "http://192.168.21.32", 
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 # Application definition
 
@@ -45,14 +47,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'app',
-    'chatapp',
-    'channels',
     'corsheaders',
     'rest_framework',
     'rest_framework_simplejwt',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -60,7 +61,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
 ]
 
@@ -93,7 +93,7 @@ ASGI_APPLICATION = 'Project.asgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Avique-The Society',
+        'NAME': 'SocialMediaDB',
         'USER' : 'postgres',
         'PASSWORD' : 'sarthak@psql',
         'HOST' : 'localhost',

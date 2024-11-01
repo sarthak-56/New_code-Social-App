@@ -52,7 +52,7 @@ const Login = ({ setAuth }) => {
   return (
     <div className={styles.authContainer}>
       <div className={styles.description}>
-        <h3 className={styles.appTitle}>Welcome back to Avique!</h3>
+        <h3 className={styles.appTitle}>Welcome back to Our SocialMedia!</h3>
         <p className={styles.subtitle}>
         Welcome back! We're excited to have you here. Please log in with your email and password to access your account and dive back into the features you love. Let’s get you started on another great session!
         </p>

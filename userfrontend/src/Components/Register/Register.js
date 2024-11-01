@@ -81,12 +81,12 @@ const Register = () => {
 
   return (
     <div className={styles.authContainer}>
-      <h1 className={styles.appTitle}>Avique</h1>
+      <h1 className={styles.appTitle}>Social Media</h1>
       <h3 className={styles.subtitle}>Join the social experience</h3>
       <div className={styles.contentWrapper}>
         <div className={styles.description}>
           <p>
-          Welcome to Avique! Register with your email, name, and password to connect with friends and explore our vibrant community.
+          Welcome to Our Social Media! Register with your email, name, and password to connect with friends and explore our vibrant community.
           </p>
         </div>
         <form onSubmit={handleNextInput} className={styles.authForm}>
