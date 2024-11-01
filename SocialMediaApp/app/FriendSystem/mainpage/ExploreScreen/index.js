@@ -15,28 +15,37 @@ const ExploreScreen = () => {
     const [likedUsers, setLikedUsers] = useState({});
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentImage, setCurrentImage] = useState('');
-        console.log(userPosts)
+    const [refreshing, setRefreshing] = useState(false); // New state for refreshing
+
     useEffect(() => {
-        const fetchPosts = async () => {
-            try {
-                const token = await AsyncStorage.getItem('accessToken');
-                const response = await axios.get('http://192.168.21.32:8000/api/user/globalposts/', {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-
-                setUserPosts(response.data || []);
-                setLoading(false);
-            } catch (error) {
-                console.error('Error fetching user posts:', error);
-                setError(error);
-                setLoading(false);
-            }
-        };
-
         fetchPosts();
     }, []);
+
+    const fetchPosts = async () => {
+        setLoading(true); // Start loading when fetching posts
+        try {
+            const token = await AsyncStorage.getItem('accessToken');
+            const response = await axios.get('http://192.168.21.32:8000/api/user/globalposts/', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            setUserPosts(response.data || []);
+            setLoading(false);
+        } catch (error) {
+            console.error('Error fetching user posts:', error);
+            setError(error);
+            setLoading(false);
+        }
+    };
+
+    // Function to handle refresh
+    const handleRefresh = async () => {
+        setRefreshing(true); // Set refreshing to true
+        await fetchPosts(); // Fetch posts again
+        setRefreshing(false); // Reset refreshing state
+    };
 
     if (loading) {
         return <ActivityIndicator size="large" color="#0000ff" />;
@@ -108,6 +117,8 @@ const ExploreScreen = () => {
             contentContainerStyle={styles.feed}
             ListEmptyComponent={<Text style={styles.noPosts}>No posts to display</Text>}
             ListFooterComponent={<ImageModal isOpen={isModalOpen} imageUrl={currentImage} onClose={closeModal} />}
+            refreshing={refreshing} // Add refreshing state here
+            onRefresh={handleRefresh} // Add onRefresh handler
         />
     );
 };
@@ -130,9 +141,10 @@ const styles = StyleSheet.create({
     },
     postImage: {
         width: '100%',
-        height: 200,
+        height: 250,
         borderRadius: 5,
         marginVertical: 10,
+        resizeMode:'cover'
     },
     postContent: {
         fontSize: 14,

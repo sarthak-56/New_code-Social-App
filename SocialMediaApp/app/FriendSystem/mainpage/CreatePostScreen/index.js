@@ -14,28 +14,23 @@ const PostForm = () => {
   const navigation = useNavigation();
 
   const handleImagePicker = async () => {
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status !== 'granted') {
-      Alert.alert("Permission Required", "Permission to access media library is required!");
-      return;
+    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (permissionResult.granted === false) {
+        alert('Permission to access camera roll is required!');
+        return;
     }
 
-    const pickerResult = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      quality: 1,
+    const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
     });
 
-    console.log("Picker Result:", pickerResult);
-
-    if (!pickerResult.canceled && pickerResult.assets && pickerResult.assets.length > 0) {
-
-      const imageUri = pickerResult.assets[0].uri;
-      console.log("Image URI:", imageUri);
-      setImage(imageUri);
-    } else if (pickerResult.canceled) {
-      console.log("Image selection was cancelled");
-    } else {
-      console.log("No image selected or undefined URI");
+    if (!result.canceled) {
+        const selectedImage = result.assets ? result.assets[0].uri : result.uri;
+        setImage(selectedImage); // Directly set the selected image here
     }
   };
 
@@ -89,7 +84,6 @@ const PostForm = () => {
       Alert.alert("Success", "Post created successfully!");
       setContent('');
       setImage(null);
-      navigation.navigate('Main');
     } catch (err) {
       console.error("Error creating post:", err);
       const errorMessage = err.response?.data?.message || 'An error occurred while creating the post.';
@@ -103,7 +97,6 @@ const PostForm = () => {
     
     try {
       const token = await AsyncStorage.getItem('accessToken');
-      // Example API call to fetch posts
       const response = await axios.get('http://192.168.21.32:8000/api/user/userposts/', {
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -139,19 +132,21 @@ const PostForm = () => {
         multiline
       />
 
-
       <TouchableOpacity onPress={handleSubmit} style={{
         backgroundColor: 'black',
         borderRadius: 99,
-        padding:10,
-        margin:10
-      }}><Text style={{
-        color: 'white',
-        fontSize: 20,
-        fontWeight: 800,
-        textAlign:'center'
+        padding: 10,
+        margin: 10
       }}>
-          Upload</Text></TouchableOpacity>
+        <Text style={{
+          color: 'white',
+          fontSize: 20,
+          fontWeight: '800',
+          textAlign: 'center'
+        }}>
+          Upload
+        </Text>
+      </TouchableOpacity>
       {error && <Text style={styles.errorText}>Error: {error}</Text>}
     </ScrollView>
   );
@@ -167,7 +162,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 50,
     marginTop: 20,
-    
   },
   image: {
     width: '100%',
