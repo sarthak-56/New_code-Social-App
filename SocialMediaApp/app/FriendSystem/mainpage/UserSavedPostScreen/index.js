@@ -16,6 +16,7 @@ const SavedPost = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [likedUsers, setLikedUsers] = useState({});
 
+
   useEffect(() => {
     fetchSavedPosts();
   }, []);
@@ -24,7 +25,7 @@ const SavedPost = () => {
     setLoading(true);
     try {
       const token = await AsyncStorage.getItem('accessToken');
-      const response = await fetch('http://192.168.21.32:8000/api/user/saved-posts/', {
+      const response = await fetch('http://192.168.86.32:8000/api/user/saved-posts/', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -41,22 +42,26 @@ const SavedPost = () => {
   };
 
   const handleRefresh = async () => {
-    setRefreshing(true);  // Start the refreshing state
-    await fetchSavedPosts();  // Fetch the saved posts again
-    setRefreshing(false);  // End the refreshing state
+    setRefreshing(true); // Start the refreshing state
+    try {
+      await fetchSavedPosts(); // Fetch the saved posts again
+    } catch (error) {
+      console.error('Error during refresh:', error);
+    } finally {
+      setRefreshing(false); // End the refreshing state
+    }
   };
 
   const handleRemovePost = async (postId) => {
     try {
       const token = await AsyncStorage.getItem('accessToken');
-      await fetch(`http://192.168.21.32:8000/api/user/posts/${postId}/save/`, {
+      await fetch(`http://192.168.86.32:8000/api/user/posts/${postId}/save/`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
         },
       });
-      // Update the local state immediately after unsaving
       setSavedPosts((prevPosts) => prevPosts.filter(post => post.id !== postId));
     } catch (error) {
       console.error('Error unsaving post:', error);
@@ -100,9 +105,9 @@ const SavedPost = () => {
               <View style={styles.post}>
                 <Text style={styles.userName}>{item.user}</Text>
                 {item.image && (
-                  <TouchableOpacity onPress={() => openModal(`http://192.168.21.32:8000${item.image}`)}>
+                  <TouchableOpacity onPress={() => openModal(`http://192.168.86.32:8000${item.image}`)}>
                     <Image
-                      source={{ uri: `http://192.168.21.32:8000${item.image}` }}
+                      source={{ uri: `http://192.168.86.32:8000${item.image}` }}
                       style={styles.postImage}
                     />
                   </TouchableOpacity>
@@ -110,7 +115,7 @@ const SavedPost = () => {
                 <Text style={styles.postContent}>{item.content}</Text>
                 <View style={styles.buttonContainer}>
                   <View style={styles.buttonGroupLeft}>
-                    <LikeButton postId={item.id} setLikedUsers={setLikedUsers}/>
+                    <LikeButton postId={item.id} />
                     <CommentForm postId={item.id} />
                     <ShareButton postId={item.id} />
                   </View>

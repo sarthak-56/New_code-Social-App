@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, FlatList, Image, ActivityIndicator, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, FlatList, Image, ActivityIndicator, StyleSheet, Alert } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons } from '@expo/vector-icons';
@@ -14,7 +14,8 @@ const UserSearchAndFriendRequest = () => {
   const [friends, setFriends] = useState([]);
   const [friendRequestCount, setFriendRequestCount] = useState(0);
   const [lastRequestTime, setLastRequestTime] = useState(null);
-  const [refreshing, setRefreshing] = useState(false); // State for pull-to-refresh
+  const [refreshing, setRefreshing] = useState(false);
+  const [sentRequests, setSentRequests] = useState(new Set()); // Track sent friend requests
 
   useEffect(() => {
     const fetchFriends = async () => {
@@ -24,7 +25,7 @@ const UserSearchAndFriendRequest = () => {
           return;
         }
 
-        const response = await axios.get('http://192.168.21.32:8000/api/user/friends/', {
+        const response = await axios.get('http://192.168.86.32:8000/api/user/friends/', {
           headers: { Authorization: `Bearer ${token}` }
         });
         setFriends(response.data);
@@ -54,10 +55,11 @@ const UserSearchAndFriendRequest = () => {
     setError('');
     setSuccess(null);
     try {
-      const response = await axios.get(`http://192.168.21.32:8000/api/user/search/?q=${searchKeyword}`);
+      const response = await axios.get(`http://192.168.86.32:8000/api/user/search/?q=${searchKeyword}`);
       setUsers(response.data);
     } catch (err) {
       setError('Error fetching users');
+      Alert.alert('Error', 'Error fetching users');
     }
     setLoading(false);
   };
@@ -65,6 +67,7 @@ const UserSearchAndFriendRequest = () => {
   const handleSendRequest = async (userId) => {
     if (friendRequestCount >= 3) {
       setError('You cannot send more than 3 friend requests within a minute.');
+      Alert.alert('Error', 'You cannot send more than 3 friend requests within a minute.');
       return;
     }
 
@@ -73,6 +76,7 @@ const UserSearchAndFriendRequest = () => {
 
     if (friends.some((friend) => friend.id === userId)) {
       setError('User is already a friend');
+      Alert.alert('Error', 'User is already a friend');
       setIsSending(false);
       return;
     }
@@ -82,25 +86,31 @@ const UserSearchAndFriendRequest = () => {
       const token = await AsyncStorage.getItem('accessToken');
       if (!token) {
         setError('Token not found');
+        Alert.alert('Error', 'Token not found');
         setIsSending(false);
         return;
       }
 
       const response = await axios.post(
-        'http://192.168.21.32:8000/api/user/send-friend-request/',
+        'http://192.168.86.32:8000/api/user/send-friend-request/',
         { to_user_id: userId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      setSuccess(response.data.msg);
+      // setSuccess(response.data.msg);
+      Alert.alert('Success', response.data.msg);
       setFriendRequestCount((prevCount) => prevCount + 1);
       setLastRequestTime(Date.now());
+      setSentRequests((prev) => new Set(prev).add(userId));
     } catch (error) {
       if (error.response) {
-        setError(error.response.data.detail || 'You cannot send multiple requests to the same user');
+        // setError(error.response.data.detail || 'You cannot send multiple requests to the same user');
+        Alert.alert('Error', error.response.data.detail || 'You cannot send multiple requests to the same user');
       } else if (error.request) {
-        setError('No response received from server');
+        // setError('No response received from server');
+        Alert.alert('Error', 'No response received from server');
       } else {
-        setError(error.message);
+        // setError(error.message);
+        Alert.alert('Error', error.message);
       }
     }
     setIsSending(false);
@@ -140,24 +150,31 @@ const UserSearchAndFriendRequest = () => {
       <FlatList
         data={users}
         keyExtractor={(user) => user.id.toString()}
-        renderItem={({ item }) => (
-          <View style={styles.userItem}>
-            <Image
-              source={item.profile_pic ? { uri: `http://192.168.21.32:8000${item.profile_pic}` } : require('./../../../../assets/images/profile.png')}
-              style={styles.profileImage}
-            />
-            <Text style={styles.userName}>{item.name}</Text>
-            <TouchableOpacity
-              onPress={() => handleSendRequest(item.id)}
-              disabled={isSending}
-              style={[styles.requestButton, { backgroundColor: isSending ? 'gray' : 'black' }]}
-            >
-              <Text style={styles.buttonText}>{isSending ? 'Sending...' : 'Send Request'}</Text>
-            </TouchableOpacity>
-          </View>
-        )}
+        renderItem={({ item }) => {
+          const isRequestSent = sentRequests.has(item.id); // Check if request is sent
+          const isFriend = friends.some((friend) => friend.id === item.id); // Check if user is already a friend
+          return (
+            <View style={styles.userItem}>
+              <Image
+                source={item.profile_pic ? { uri: `http://192.168.86.32:8000${item.profile_pic}` } : require('./../../../../assets/images/profile.png')}
+                style={styles.profileImage}
+              />
+              <Text style={styles.userName}>{item.name}</Text>
+              {isFriend ? (
+                <Text style={styles.buttonText}>Friend</Text>
+              ) : (
+                <TouchableOpacity
+                  onPress={() => handleSendRequest(item.id)}
+                  disabled={isSending}
+                  style={[styles.requestButton, { backgroundColor: isSending ? 'gray' : 'black' }]} >
+                  <Text style={styles.buttonText}>{isRequestSent ? 'Request Sent' : 'Send Request'}</Text>
+                </TouchableOpacity>
+              )}
+            </View>
+          );
+        }}
         refreshing={refreshing}
-        onRefresh={onRefresh} // Trigger refresh
+        onRefresh={onRefresh}
       />
     </View>
   );

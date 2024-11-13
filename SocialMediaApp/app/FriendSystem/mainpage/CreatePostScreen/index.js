@@ -37,7 +37,7 @@ const PostForm = () => {
   const createPost = async (formData, accessToken) => {
     try {
       const response = await axios.post(
-        'http://192.168.21.32:8000/api/user/userposts/',
+        'http://192.168.86.32:8000/api/user/userposts/',
         formData,
         {
           headers: {
@@ -83,7 +83,7 @@ const PostForm = () => {
       console.log('Post created:', response);
       Alert.alert("Success", "Post created successfully!");
       setContent('');
-      setImage(null);
+      setImage(null);  // Clear the image after submitting
     } catch (err) {
       console.error("Error creating post:", err);
       const errorMessage = err.response?.data?.message || 'An error occurred while creating the post.';
@@ -91,13 +91,14 @@ const PostForm = () => {
       Alert.alert("Error", errorMessage);
     }
   };
- 
+
   const onRefresh = async () => {
     setRefreshing(true);
-    
+    setImage(null); // Clear the selected image during refresh
+
     try {
       const token = await AsyncStorage.getItem('accessToken');
-      const response = await axios.get('http://192.168.21.32:8000/api/user/userposts/', {
+      const response = await axios.get('http://192.168.86.32:8000/api/user/userposts/', {
         headers: { Authorization: `Bearer ${token}` }
       });
       console.log('Posts fetched:', response.data);
@@ -119,10 +120,12 @@ const PostForm = () => {
     >
       {image && <Image source={{ uri: image }} style={styles.image} />}
 
-      <View style={styles.imagePickerContainer}>
-        <Button title="Select an Image" onPress={handleImagePicker}/>
-        {!image && <Text>No image selected</Text>}
-      </View>
+      {!image && (
+        <TouchableOpacity style={styles.imagePickerContainer} onPress={handleImagePicker}>
+          <Image source={require('./../../../../assets/images/upload.jpg')} style={styles.uploadImage} />
+          <Text>No image selected</Text>
+        </TouchableOpacity>
+      )}
 
       <TextInput
         style={styles.textInput}
@@ -132,18 +135,8 @@ const PostForm = () => {
         multiline
       />
 
-      <TouchableOpacity onPress={handleSubmit} style={{
-        backgroundColor: 'black',
-        borderRadius: 99,
-        padding: 10,
-        margin: 10
-      }}>
-        <Text style={{
-          color: 'white',
-          fontSize: 20,
-          fontWeight: '800',
-          textAlign: 'center'
-        }}>
+      <TouchableOpacity onPress={handleSubmit} style={styles.submitButton}>
+        <Text style={styles.submitButtonText}>
           Upload
         </Text>
       </TouchableOpacity>
@@ -163,11 +156,16 @@ const styles = StyleSheet.create({
     marginBottom: 50,
     marginTop: 20,
   },
+  uploadImage: {
+    width: 150,
+    height: 150,
+    resizeMode: 'contain',
+  },
   image: {
     width: '100%',
     height: 300,
     marginTop: 10,
-    resizeMode: 'contain'
+    resizeMode: 'contain',
   },
   textInput: {
     height: 100,
@@ -176,6 +174,18 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 20,
     textAlignVertical: 'top',
+  },
+  submitButton: {
+    backgroundColor: 'black',
+    borderRadius: 99,
+    padding: 10,
+    margin: 10,
+  },
+  submitButtonText: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: '800',
+    textAlign: 'center',
   },
   errorText: {
     color: 'red',

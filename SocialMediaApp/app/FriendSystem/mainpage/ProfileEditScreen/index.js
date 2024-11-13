@@ -25,7 +25,7 @@ const EditProfile = () => {
         const fetchUserProfile = async () => {
             try {
                 const accessToken = await AsyncStorage.getItem('accessToken');
-                const response = await axios.get('http://192.168.21.32:8000/api/user/profile/', {
+                const response = await axios.get('http://192.168.86.32:8000/api/user/profile/', {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
@@ -76,7 +76,7 @@ const EditProfile = () => {
             }
 
             const response = await axios.put(
-                'http://192.168.21.32:8000/api/user/profile/update/',
+                'http://192.168.86.32:8000/api/user/profile/update/',
                 formData,
                 {
                     headers: {

@@ -37,7 +37,7 @@ export default function index() {
 
 
         try {
-            const response = await axios.post('http://192.168.21.32:8000/api/user/login/', {
+            const response = await axios.post('http://192.168.86.32:8000/api/user/login/', {
                 email,
                 password,
             });

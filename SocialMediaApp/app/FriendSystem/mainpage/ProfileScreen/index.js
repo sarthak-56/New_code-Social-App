@@ -12,7 +12,7 @@ const Profile = () => {
   const fetchUserProfile = async () => {
     try {
       const accessToken = await AsyncStorage.getItem('accessToken');
-      const response = await axios.get('http://192.168.21.32:8000/api/user/profile/', {
+      const response = await axios.get('http://192.168.86.32:8000/api/user/profile/', {
         headers: {
           Authorization: `Bearer ${accessToken}`
         }
@@ -66,7 +66,7 @@ const Profile = () => {
       <Image
         source={{
           uri: userData.cover_pic
-            ? `http://192.168.21.32:8000${userData.cover_pic}`
+            ? `http://192.168.86.32:8000${userData.cover_pic}`
             : Image.resolveAssetSource(require('./../../../../assets/images/cover.jpg')).uri,
         }}
         style={styles.coverPic}
@@ -75,7 +75,7 @@ const Profile = () => {
       <Image
         source={{
           uri: userData.profile_pic
-            ? `http://192.168.21.32:8000${userData.profile_pic}`
+            ? `http://192.168.86.32:8000${userData.profile_pic}`
             : Image.resolveAssetSource(require('./../../../../assets/images/profile.png')).uri,
         }}
         style={styles.profilePic}

@@ -30,6 +30,7 @@ const FriendRequestList = ({ token }) => {
   }, [token]);
 
   const handleAccept = async (friendRequestId) => {
+   
     const token = localStorage.getItem('token');
     try {
       await axios.post('http://127.0.0.1:8000/api/user/accept-friend-request/',

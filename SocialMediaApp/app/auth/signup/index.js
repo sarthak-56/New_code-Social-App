@@ -42,7 +42,7 @@ export default function index() {
 
         setIsLoading(true);
         try {
-            const response = await axios.post('http://192.168.21.32:8000/api/user/register/', {
+            const response = await axios.post('http://192.168.86.32:8000/api/user/register/', {
                 email,
                 name,
                 password,

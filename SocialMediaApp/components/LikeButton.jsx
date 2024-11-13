@@ -23,7 +23,7 @@ const LikeButton = ({ postId, setLikedUsers }) => {
                 const decodedToken = jwtDecode(token);
                 setCurrentUserId(decodedToken.user_id);
 
-                const response = await fetch(`http://192.168.21.32:8000/api/user/posts/${postId}/like/`, {
+                const response = await fetch(`http://192.168.86.32:8000/api/user/posts/${postId}/like/`, {
                     method: 'GET',
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -60,7 +60,7 @@ const LikeButton = ({ postId, setLikedUsers }) => {
                 return;
             }
 
-            const response = await fetch(`http://192.168.21.32:8000/api/user/posts/${postId}/like/`, {
+            const response = await fetch(`http://192.168.86.32:8000/api/user/posts/${postId}/like/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -91,7 +91,7 @@ const LikeButton = ({ postId, setLikedUsers }) => {
                 return;
             }
 
-            const response = await fetch(`http://192.168.21.32:8000/api/user/posts/${postId}/like/`, {
+            const response = await fetch(`http://192.168.86.32:8000/api/user/posts/${postId}/like/`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

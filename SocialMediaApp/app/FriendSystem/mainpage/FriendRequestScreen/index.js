@@ -14,7 +14,7 @@ const FriendRequestList = ({ token }) => {
       setError(null);
       try {
         const token = await AsyncStorage.getItem('accessToken');
-        const response = await axios.get('http://192.168.21.32:8000/api/user/friend-requests/', {
+        const response = await axios.get('http://192.168.86.32:8000/api/user/friend-requests/', {
           headers: { Authorization: `Bearer ${token}` },
         });
         setFriendRequests(response.data);
@@ -33,7 +33,7 @@ const FriendRequestList = ({ token }) => {
   const handleAccept = async (friendRequestId) => {
     try {
       const token = await AsyncStorage.getItem('accessToken');
-      await axios.post('http://192.168.21.32:8000/api/user/accept-friend-request/',
+      await axios.post('http://192.168.86.32:8000/api/user/accept-friend-request/',
         { friend_request_id: friendRequestId },
         { headers: { Authorization: `Bearer ${token}` } });
       setFriendRequests((prevRequests) => prevRequests.filter((request) => request.id !== friendRequestId));
@@ -47,7 +47,7 @@ const FriendRequestList = ({ token }) => {
   const handleReject = async (friendRequestId) => {
     try {
       const token = await AsyncStorage.getItem('accessToken');
-      await axios.post('http://192.168.21.32:8000/api/user/reject-friend-request/',
+      await axios.post('http://192.168.86.32:8000/api/user/reject-friend-request/',
         { friend_request_id: friendRequestId },
         { headers: { Authorization: `Bearer ${token}` } });
       setFriendRequests((prevRequests) => prevRequests.filter((request) => request.id !== friendRequestId));
@@ -69,7 +69,7 @@ const FriendRequestList = ({ token }) => {
         renderItem={({ item }) => (
           <View style={styles.friendRequestItem}>
             <Text style={styles.requestInfo}>
-              {item.from_user.name} sent you a friend request.
+              Request from {item.from_user.name} 
             </Text>
             <View style={styles.buttonContainer}>
               <TouchableOpacity style={styles.acceptButton} onPress={() => handleAccept(item.id)}>
@@ -88,11 +88,15 @@ const FriendRequestList = ({ token }) => {
 };
 
 const styles = StyleSheet.create({
+  container:{
+    backgroundColor:'white',
+    height:900
+  },
   friendRequestItem: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingVertical: 8,
+    paddingVertical: 20,
     paddingHorizontal: 16,
     backgroundColor: '#fff',
     borderRadius: 8,
@@ -105,9 +109,10 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   requestInfo: {
-    fontSize: 16,
+    fontSize: 12,
     flex: 2,  // Allows the text area to take more space
     paddingRight: 8,
+  
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -115,7 +120,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   acceptButton: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: 'black',
     paddingVertical: 6,
     paddingHorizontal: 12,
     borderRadius: 4,

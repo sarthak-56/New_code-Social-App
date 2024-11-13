@@ -10,7 +10,7 @@ const SaveButton = ({ postId }) => {
   const handleSave = async () => {
     try {
       const token = await AsyncStorage.getItem('accessToken');
-      await fetch(`http://192.168.21.32:8000/api/user/posts/${postId}/save/`, {
+      await fetch(`http://192.168.86.32:8000/api/user/posts/${postId}/save/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -26,7 +26,7 @@ const SaveButton = ({ postId }) => {
   const handleUnsave = async () => {
     try {
       const token = await AsyncStorage.getItem('accessToken');
-      await fetch(`http://192.168.21.32:8000/api/user/posts/${postId}/save/`, {
+      await fetch(`http://192.168.86.32:8000/api/user/posts/${postId}/save/`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
