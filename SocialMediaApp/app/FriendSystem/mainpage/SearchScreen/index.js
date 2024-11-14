@@ -65,7 +65,7 @@ const UserSearchAndFriendRequest = () => {
   };
 
   const handleSendRequest = async (userId) => {
-    if (friendRequestCount >= 3) {
+    if (friendRequestCount >= 20) {
       setError('You cannot send more than 3 friend requests within a minute.');
       Alert.alert('Error', 'You cannot send more than 3 friend requests within a minute.');
       return;

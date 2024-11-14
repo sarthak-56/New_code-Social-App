@@ -91,7 +91,7 @@ const Profile = () => {
         <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
           <Ionicons name="location" size={24} color="gray" />
           <Text style={{ color: 'gray', fontSize: 18, marginLeft: 8 }}>
-            Lives in <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 18 }}>{userData.location}</Text>
+            Lives in <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 18 }}>{userData.location ? userData.location : "N/A -----------------------------"}</Text>
           </Text>
         </View>
 
@@ -99,7 +99,7 @@ const Profile = () => {
         <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
           <Ionicons name="briefcase" size={24} color="gray" />
           <Text style={{ color: 'gray', fontSize: 18, marginLeft: 8 }}>
-            Works at <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 18 }}>{userData.work}</Text>
+            Works at <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 18 }}>{userData.work ? userData.work :"N/A -----------------------------"}</Text>
           </Text>
         </View>
 
@@ -107,7 +107,7 @@ const Profile = () => {
         <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
           <Ionicons name="school" size={24} color="gray" />
           <Text style={{ color: 'gray', fontSize: 18, marginLeft: 8 }}>
-            Studied at <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 18 }}>{userData.study}</Text>
+            Studied at <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 18 }}>{userData.study ? userData.study : "N/A ----------------------------"}</Text>
           </Text>
         </View>
 
@@ -123,7 +123,7 @@ const Profile = () => {
         <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
           <Ionicons name="calendar" size={24} color="gray" />
           <Text style={{ color: 'gray', fontSize: 18, marginLeft: 8 }}>
-            Birthday <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 18 }}>{formatBirthday(userData.date_of_birth)}</Text>
+            Birthday <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 18 }}>{formatBirthday(userData.date_of_birth ? userData.date_of_birth : "N/A -------------------------------")}</Text>
           </Text>
         </View>
 

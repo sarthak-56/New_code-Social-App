@@ -101,7 +101,7 @@ class SendFriendRequestView(APIView):
         cache_key = f'friend_request_count_{from_user.id}'
         friend_request_count = cache.get(cache_key, 0)
 
-        if friend_request_count >= 3:
+        if friend_request_count >= 20:
             return Response({'error': 'You cannot send more than 3 friend requests within a minute.'}, status=status.HTTP_429_TOO_MANY_REQUESTS)
 
         # Save friend request

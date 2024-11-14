@@ -1,9 +1,20 @@
-import { View, Text, TextInput, Button, Image, StyleSheet, TouchableOpacity, ActivityIndicator, ScrollView } from 'react-native';
+import {
+    View,
+    Text,
+    TextInput,
+    Button,
+    Image,
+    StyleSheet,
+    TouchableOpacity,
+    ActivityIndicator,
+    ScrollView
+} from 'react-native';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as ImagePicker from 'expo-image-picker';
 import { Picker } from '@react-native-picker/picker';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 const EditProfile = () => {
     const [userData, setUserData] = useState({
@@ -20,6 +31,7 @@ const EditProfile = () => {
     const [loading, setLoading] = useState(true);
     const [updating, setUpdating] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    const [showDatePicker, setShowDatePicker] = useState(false);
 
     useEffect(() => {
         const fetchUserProfile = async () => {
@@ -46,9 +58,6 @@ const EditProfile = () => {
             const accessToken = await AsyncStorage.getItem('accessToken');
             const formData = new FormData();
 
-            // Log the current userData for debugging
-            console.log('UserData before sending:', userData);
-
             // Append fields only if they have values
             if (userData.name) formData.append('name', userData.name);
             if (userData.bio) formData.append('bio', userData.bio);
@@ -62,7 +71,7 @@ const EditProfile = () => {
             if (userData.profile_pic) {
                 formData.append('profile_pic', {
                     uri: userData.profile_pic,
-                    type: 'image/jpeg', // Ensure the correct type
+                    type: 'image/jpeg',
                     name: 'profile.jpg',
                 });
             }
@@ -87,7 +96,7 @@ const EditProfile = () => {
             );
             console.log('Profile updated:', response.data);
             alert('Profile updated successfully!');
-            setErrorMessage(''); // Clear error message on success
+            setErrorMessage('');
         } catch (error) {
             handleAxiosError(error);
         } finally {
@@ -132,6 +141,14 @@ const EditProfile = () => {
             } else {
                 setUserData({ ...userData, profile_pic: selectedImage });
             }
+        }
+    };
+
+    const handleDateChange = (event, selectedDate) => {
+        setShowDatePicker(false);
+        if (selectedDate) {
+            const formattedDate = selectedDate.toISOString().split('T')[0];
+            setUserData({ ...userData, date_of_birth: formattedDate });
         }
     };
 
@@ -200,12 +217,22 @@ const EditProfile = () => {
                 onChangeText={(text) => setUserData({ ...userData, study: text })}
                 style={styles.input}
             />
-            <TextInput
-                placeholder="Date of Birth (YYYY-MM-DD)"
-                value={userData.date_of_birth}
-                onChangeText={(text) => setUserData({ ...userData, date_of_birth: text })}
-                style={styles.input}
-            />
+
+            <Text>Date of Birth</Text>
+            <TouchableOpacity onPress={() => setShowDatePicker(true)} style={styles.datePickerButton}>
+                <Text style={styles.datePickerText}>{userData.date_of_birth || 'Select Date'}</Text>
+            </TouchableOpacity>
+            {showDatePicker && (
+               <DateTimePicker
+               value={new Date()}
+               mode="date"
+               display="spinner"  
+               onChange={handleDateChange}
+               themeVariant="dark"  
+               textColor="white"  
+               accentColor="black"
+           />
+            )}
 
             <Text>Relationship Status</Text>
             <Picker
@@ -226,13 +253,13 @@ const EditProfile = () => {
                     padding: 15,
                     backgroundColor: 'black',
                     borderRadius: 99,
-                    margin:'15%'
+                    margin: '15%'
                 }}
             >
                 {updating ? (
                     <ActivityIndicator size="small" color="#fff" />
                 ) : (
-                    <Text style={{ color: 'white', textAlign: 'center', fontWeight: 'bold' }}>Update Profile</Text>
+                    <Text style={{ color: 'white', textAlign: 'center', fontWeight: 'bold' }}>Save changes</Text>
                 )}
             </TouchableOpacity>
         </ScrollView>
@@ -246,38 +273,46 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
     },
     input: {
-        borderWidth: 1,
+        borderBottomWidth:3,
         borderColor: '#ccc',
-        padding: 10,
-        marginBottom: 15,
+        padding: 2,
+        marginVertical: 10,
         borderRadius: 5,
     },
     profilePic: {
         width: 100,
         height: 100,
         borderRadius: 50,
-        marginBottom: 10,
+        marginVertical: 10,
     },
     coverPic: {
         width: '100%',
-        height: 200,
-        marginBottom: 10,
+        height: 150,
+        marginVertical: 10,
     },
     imagePicker: {
         backgroundColor: 'black',
         padding: 10,
         borderRadius: 5,
-        marginBottom: 20,
         alignItems: 'center',
-    },
-    picker: {
-        height: 50,
-        width: '100%',
-        marginBottom: 20,
+        marginVertical: 10,
     },
     error: {
         color: 'red',
         marginBottom: 10,
+    },
+    datePickerButton: {
+        borderWidth: 1,
+        borderColor: 'black',
+        padding: 10,
+        borderRadius: 5,
+        marginVertical: 10,
+    },
+    datePickerText: {
+        fontSize: 16,
+    },
+    picker: {
+        marginVertical: 10,
     },
 });
 
