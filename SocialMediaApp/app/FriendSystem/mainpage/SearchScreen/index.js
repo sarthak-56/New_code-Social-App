@@ -25,7 +25,7 @@ const UserSearchAndFriendRequest = () => {
           return;
         }
 
-        const response = await axios.get('http://192.168.86.32:8000/api/user/friends/', {
+        const response = await axios.get('http://192.168.1.49:8000/api/user/friends/', {
           headers: { Authorization: `Bearer ${token}` }
         });
         setFriends(response.data);
@@ -55,7 +55,7 @@ const UserSearchAndFriendRequest = () => {
     setError('');
     setSuccess(null);
     try {
-      const response = await axios.get(`http://192.168.86.32:8000/api/user/search/?q=${searchKeyword}`);
+      const response = await axios.get(`http://192.168.1.49:8000/api/user/search/?q=${searchKeyword}`);
       setUsers(response.data);
     } catch (err) {
       setError('Error fetching users');
@@ -92,7 +92,7 @@ const UserSearchAndFriendRequest = () => {
       }
 
       const response = await axios.post(
-        'http://192.168.86.32:8000/api/user/send-friend-request/',
+        'http://192.168.1.49:8000/api/user/send-friend-request/',
         { to_user_id: userId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -156,7 +156,7 @@ const UserSearchAndFriendRequest = () => {
           return (
             <View style={styles.userItem}>
               <Image
-                source={item.profile_pic ? { uri: `http://192.168.86.32:8000${item.profile_pic}` } : require('./../../../../assets/images/profile.png')}
+                source={item.profile_pic ? { uri: `http://192.168.1.49:8000${item.profile_pic}` } : require('./../../../../assets/images/profile.png')}
                 style={styles.profileImage}
               />
               <Text style={styles.userName}>{item.name}</Text>

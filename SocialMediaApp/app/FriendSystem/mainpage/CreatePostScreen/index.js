@@ -37,7 +37,7 @@ const PostForm = () => {
   const createPost = async (formData, accessToken) => {
     try {
       const response = await axios.post(
-        'http://192.168.86.32:8000/api/user/userposts/',
+        'http://192.168.1.49:8000/api/user/userposts/',
         formData,
         {
           headers: {
@@ -98,7 +98,7 @@ const PostForm = () => {
 
     try {
       const token = await AsyncStorage.getItem('accessToken');
-      const response = await axios.get('http://192.168.86.32:8000/api/user/userposts/', {
+      const response = await axios.get('http://192.168.1.49:8000/api/user/userposts/', {
         headers: { Authorization: `Bearer ${token}` }
       });
       console.log('Posts fetched:', response.data);

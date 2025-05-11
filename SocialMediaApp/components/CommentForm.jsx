@@ -14,7 +14,7 @@ const CommentForm = ({ postId }) => {
     const fetchComments = async () => {
       try {
         const token = await AsyncStorage.getItem('accessToken');
-        const response = await fetch(`http://192.168.86.32:8000/api/user/posts/${postId}/comment/`, {
+        const response = await fetch(`http://192.168.1.49:8000/api/user/posts/${postId}/comment/`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -41,7 +41,7 @@ const CommentForm = ({ postId }) => {
 
     try {
       const token = await AsyncStorage.getItem('accessToken');
-      const response = await fetch(`http://192.168.86.32:8000/api/user/posts/${postId}/comment/`, {
+      const response = await fetch(`http://192.168.1.49:8000/api/user/posts/${postId}/comment/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

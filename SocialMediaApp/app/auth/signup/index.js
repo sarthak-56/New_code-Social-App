@@ -42,7 +42,7 @@ export default function index() {
 
         setIsLoading(true);
         try {
-            const response = await axios.post('http://192.168.86.32:8000/api/user/register/', {
+            const response = await axios.post('http://192.168.1.49:8000/api/user/register/', {
                 email,
                 name,
                 password,
@@ -80,10 +80,10 @@ export default function index() {
                 <View style={{
                     marginTop: 50
                 }}>
-                    <Text>Username</Text>
+                    <Text>Email</Text>
                     <TextInput
                         style={styles.input}
-                        placeholder='Enter Username'
+                        placeholder='Enter Email'
                         value={formData.email}
                         onChangeText={(value) => handleChange('email', value)}
                     />

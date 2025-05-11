@@ -7,7 +7,7 @@ const ShareButton = ({ postId }) => {
   const handleShare = async () => {
     try {
       const token = await AsyncStorage.getItem('accessToken');
-      const response = await fetch(`http://192.168.86.32:8000/api/user/posts/${postId}/share/`, {
+      const response = await fetch(`http://192.168.1.49:8000/api/user/posts/${postId}/share/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

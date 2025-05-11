@@ -25,7 +25,7 @@ const UserOwnPostScreen = () => {
         setLoading(true);
         try {
             const token = await AsyncStorage.getItem('accessToken');
-            const response = await axios.get('http://192.168.86.32:8000/api/user/userposts/', {
+            const response = await axios.get('http://192.168.1.49:8000/api/user/userposts/', {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -77,9 +77,9 @@ const UserOwnPostScreen = () => {
         <View style={styles.post}>
             <Text style={styles.userName}>{item.user}</Text>
             {item.image && (
-                <TouchableOpacity onPress={() => openModal(`http://192.168.86.32:8000${item.image}`)}>
+                <TouchableOpacity onPress={() => openModal(`http://192.168.1.49:8000${item.image}`)}>
                     <Image
-                        source={{ uri: `http://192.168.86.32:8000${item.image}` }}
+                        source={{ uri: `http://192.168.1.49:8000${item.image}` }}
                         style={styles.postImage}
                     />
                 </TouchableOpacity>

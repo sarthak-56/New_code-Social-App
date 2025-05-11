@@ -25,7 +25,7 @@ const SavedPost = () => {
     setLoading(true);
     try {
       const token = await AsyncStorage.getItem('accessToken');
-      const response = await fetch('http://192.168.86.32:8000/api/user/saved-posts/', {
+      const response = await fetch('http://192.168.1.49:8000/api/user/saved-posts/', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -55,7 +55,7 @@ const SavedPost = () => {
   const handleRemovePost = async (postId) => {
     try {
       const token = await AsyncStorage.getItem('accessToken');
-      await fetch(`http://192.168.86.32:8000/api/user/posts/${postId}/save/`, {
+      await fetch(`http://192.168.1.49:8000/api/user/posts/${postId}/save/`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -105,9 +105,9 @@ const SavedPost = () => {
               <View style={styles.post}>
                 <Text style={styles.userName}>{item.user}</Text>
                 {item.image && (
-                  <TouchableOpacity onPress={() => openModal(`http://192.168.86.32:8000${item.image}`)}>
+                  <TouchableOpacity onPress={() => openModal(`http://192.168.1.49:8000${item.image}`)}>
                     <Image
-                      source={{ uri: `http://192.168.86.32:8000${item.image}` }}
+                      source={{ uri: `http://192.168.1.49:8000${item.image}` }}
                       style={styles.postImage}
                     />
                   </TouchableOpacity>

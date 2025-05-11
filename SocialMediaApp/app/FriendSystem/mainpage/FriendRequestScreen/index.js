@@ -14,7 +14,7 @@ const FriendRequestList = ({ token }) => {
       setError(null);
       try {
         const token = await AsyncStorage.getItem('accessToken');
-        const response = await axios.get('http://192.168.86.32:8000/api/user/friend-requests/', {
+        const response = await axios.get('http://192.168.1.49:8000/api/user/friend-requests/', {
           headers: { Authorization: `Bearer ${token}` },
         });
         setFriendRequests(response.data);
@@ -33,7 +33,7 @@ const FriendRequestList = ({ token }) => {
   const handleAccept = async (friendRequestId) => {
     try {
       const token = await AsyncStorage.getItem('accessToken');
-      await axios.post('http://192.168.86.32:8000/api/user/accept-friend-request/',
+      await axios.post('http://192.168.1.49:8000/api/user/accept-friend-request/',
         { friend_request_id: friendRequestId },
         { headers: { Authorization: `Bearer ${token}` } });
       setFriendRequests((prevRequests) => prevRequests.filter((request) => request.id !== friendRequestId));
@@ -47,7 +47,7 @@ const FriendRequestList = ({ token }) => {
   const handleReject = async (friendRequestId) => {
     try {
       const token = await AsyncStorage.getItem('accessToken');
-      await axios.post('http://192.168.86.32:8000/api/user/reject-friend-request/',
+      await axios.post('http://192.168.1.49:8000/api/user/reject-friend-request/',
         { friend_request_id: friendRequestId },
         { headers: { Authorization: `Bearer ${token}` } });
       setFriendRequests((prevRequests) => prevRequests.filter((request) => request.id !== friendRequestId));

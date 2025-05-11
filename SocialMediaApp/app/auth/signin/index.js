@@ -37,7 +37,7 @@ export default function index() {
 
 
         try {
-            const response = await axios.post('http://192.168.86.32:8000/api/user/login/', {
+            const response = await axios.post('http://192.168.1.49:8000/api/user/login/', {
                 email,
                 password,
             });
@@ -84,10 +84,10 @@ export default function index() {
                 <Text style={{ fontSize: 30, fontWeight: '500', color: 'gray', marginTop: 20 }}>You've been missed</Text>
 
                 <View style={{ marginTop: 50 }}>
-                    <Text>Username</Text>
+                    <Text>Email</Text>
                     <TextInput
                         style={styles.input}
-                        placeholder='Enter Username'
+                        placeholder='Enter Email'
                         value={formData.email}
                         onChangeText={(text) => handleChange('email', text)} // Update username
                     />

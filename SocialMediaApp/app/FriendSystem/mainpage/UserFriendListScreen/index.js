@@ -23,7 +23,7 @@ const FriendList = () => {
           return;
         }
 
-        const response = await axios.get('http://192.168.86.32:8000/api/user/friends/', {
+        const response = await axios.get('http://192.168.1.49:8000/api/user/friends/', {
           headers: { Authorization: `Bearer ${token}` },
         });
         setFriends(response.data);
@@ -52,7 +52,7 @@ const FriendList = () => {
   // const unfriend = async (friendId) => {
   //   try {
   //     const token = await AsyncStorage.getItem('accessToken');
-  //     await axios.delete(`http://192.168.86.32:8000/api/user/friends/${friendId}/`, {
+  //     await axios.delete(`http://192.168.227.32:8000/api/user/friends/${friendId}/`, {
   //       headers: { Authorization: `Bearer ${token}` },
   //     });
   //     setFriends((prevFriends) => prevFriends.filter((friend) => friend.id !== friendId));
@@ -78,7 +78,7 @@ const FriendList = () => {
     <View style={styles.friendItem}>
       <Image
         style={styles.profilePicture}
-        source={item.profile_pic ? { uri: `http://192.168.86.32:8000${item.profile_pic}` } : require('./../../../../assets/images/profile.png')}
+        source={item.profile_pic ? { uri: `http://192.168.1.49:8000${item.profile_pic}` } : require('./../../../../assets/images/profile.png')}
         onError={(error) => console.error('Image load error:', error)}
       />
       <TouchableOpacity onPress={() => openModal(item)}>
@@ -114,14 +114,14 @@ const FriendList = () => {
               {/* Cover Picture */}
               <Image
                 style={styles.coverPicture}
-                source={selectedFriend.cover_pic ? { uri: `http://192.168.86.32:8000${selectedFriend.cover_pic}` } : require('./../../../../assets/images/cover.jpg')}
+                source={selectedFriend.cover_pic ? { uri: `http://192.168.1.49:8000${selectedFriend.cover_pic}` } : require('./../../../../assets/images/cover.jpg')}
                 onError={(error) => console.error('Cover image load error:', error)}
               />
 
               {/* Profile Picture */}
               <Image
                 style={styles.ModalprofilePicture}
-                source={selectedFriend.profile_pic ? { uri: `http://192.168.86.32:8000${selectedFriend.profile_pic}` } : require('./../../../../assets/images/profile.png')}
+                source={selectedFriend.profile_pic ? { uri: `http://192.168.1.49:8000${selectedFriend.profile_pic}` } : require('./../../../../assets/images/profile.png')}
                 onError={(error) => console.error('Profile image load error:', error)}
               />
 
